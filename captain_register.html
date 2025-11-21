@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Captain Register</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<style>
+:root{
+  --blue:#2563eb;
+  --blue-hover:#1e40af;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --radius:12px;
+  --font:"Inter", sans-serif;
+}
+
+body{
+  background:#eef3ff;
+  font-family:var(--font);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+}
+
+.card{
+  width:100%;
+  max-width:450px;
+  background:white;
+  border-radius:var(--radius);
+  padding:25px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  text-align:center;
+  overflow-y:auto;
+  max-height:95vh;
+}
+
+h2{ margin-bottom:15px; font-size:1.6rem; }
+
+input{
+  width:100%;
+  padding:8px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #cbd5e1;
+  font-size:0.9rem;
+}
+
+.btn{
+  width:100%;
+  background:var(--blue);
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  font-weight:600;
+  text-decoration:none;
+  display:block;
+  margin-top:12px;
+  font-size:0.95rem;
+  transition:0.2s;
+  border:none;
+  cursor:pointer;
+}
+.btn:hover{
+  background:var(--blue-hover);
+  transform:translateY(-1px);
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Captain Registration</h2>
+
+    <form action="/captain/register" method="POST" id="captainForm">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="text" name="address" placeholder="Address" required>
+        <input type="text" name="upi_id" placeholder="UPI ID" required>
+        <input type="text" name="adhar_no" placeholder="Aadhar Number" required>
+        <input type="text" name="education" placeholder="Education">
+        <select name="experience">
+            <option value="no">No Experience</option>
+            <option value="yes">Has Experience</option>
+        </select>
+
+
+        <button class="btn" type="submit">Register</button>
+    </form>
+</div>
+
+</body>
+</html>

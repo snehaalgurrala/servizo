@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Captain Dashboard</title>
+<link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<style>
+:root{
+  --blue:#2563eb;
+  --blue-hover:#1e40af;
+  --green:#22c55e;
+  --green-hover:#16a34a;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --radius:12px;
+  --font:"Inter", sans-serif;
+}
+
+body{
+  background:#eef3ff;
+  font-family:var(--font);
+  margin:0;
+  padding:20px;
+}
+
+.container{
+  max-width:1000px;
+  margin:0 auto;
+}
+
+/* Stats Cards */
+.stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat-card{
+  flex:1;
+  min-width:200px;
+  background:white;
+  border-radius:var(--radius);
+  padding:15px 20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  text-align:center;
+}
+.stat-card h3{
+  margin:0;
+  font-size:1.2rem;
+  color:var(--muted);
+}
+.stat-card p{
+  font-size:1.5rem;
+  font-weight:600;
+  margin-top:5px;
+  color:var(--text);
+}
+
+/* Orders Table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom:30px;
+}
+th, td{
+  padding:12px 15px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:left;
+  font-size:0.95rem;
+}
+th{
+  background:#f0f0f0;
+  font-weight:600;
+}
+tr:last-child td{
+  border-bottom:none;
+}
+
+/* Buttons */
+.btn{
+  padding:6px 12px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:0.85rem;
+  font-weight:600;
+  transition:0.2s;
+}
+.accept-btn{
+  background:var(--blue);
+  color:white;
+}
+.accept-btn:hover{ background:var(--blue-hover); }
+.complete-btn{
+  background:var(--green);
+  color:white;
+}
+.complete-btn:hover{ background:var(--green-hover); }
+
+@media(max-width:800px){
+  .stats{flex-direction:column;}
+  table, th, td{font-size:0.8rem;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Captain Dashboard</h2>
+
+    <!-- Stats Cards -->
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Completed</h3>
+            <p>{{ total_completed }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Average Rating</h3>
+            <p>{{ avg_rating | round(1) }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Earned</h3>
+            <p>₹ {{ earned }}</p>
+        </div>
+    </div>
+
+    <!-- Orders Table -->
+    <h3>Orders</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.service_name }}</td>
+                <td>{{ order.order_date }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.total_amount or '-' }}</td>
+                <td>
+                    {% if order.status == "pending" and order.captain_id is none %}
+                        <form method="POST" action="{{ url_for('captain_accept', order_id=order.order_id) }}">
+                            <button type="submit" class="btn accept-btn" name="submit">Accept</button>
+                        </form>
+                    {% elif order.status == "Accepted" and order.captain_id == session['captain']['id'] %}
+                        <form method="POST" action="{{ url_for('complete_order', order_id=order.order_id) }}">
+                            <button type="submit" class="btn complete-btn" name="submit">Complete</button>
+                        </form>
+                    {% else %}
+                        <span>No Action</span>
+                    {% endif %}
+
+
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" style="text-align:center; color:var(--muted)">No orders available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

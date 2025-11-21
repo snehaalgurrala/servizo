@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+    <style>
+:root{
+    --bg:#f0fdf4;          /* light greenish background */
+    --card:#ffffff;        /* white table card */
+    --accent:#22c55e;      /* Servizo green */
+    --text-dark:#0f172a;   /* dark text */
+    --muted:#64748b;
+    --radius:12px;
+    --font:"Inter", system-ui, sans-serif;
+}
+
+/* Reset */
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    padding:40px;
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--text-dark);
+}
+
+/* Page heading */
+h2{
+    text-align:center;
+    font-size:2rem;
+    margin-bottom:25px;
+    color:var(--text-dark);
+}
+
+/* Table wrapper card */
+.table-wrapper{
+    max-width:900px;
+    margin:0 auto;
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:25px;
+    border:1px solid #e2e8f0;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th, td{
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid #e5e7eb;
+}
+
+th{
+    background:#ecfdf5;
+    color:#065f46;
+    font-weight:600;
+}
+
+tr:hover{
+    background:#f0fdf4;
+}
+
+/* Buttons */
+button{
+    padding:8px 14px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s ease;
+}
+
+button:hover{
+    background:#16a34a;
+    transform:translateY(-2px);
+}
+
+/* Cancelled text */
+.cancelled{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+/* Back link */
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:30px;
+    text-decoration:none;
+    color:#15803d;
+    font-weight:600;
+}
+
+.back-link:hover{
+    text-decoration:underline;
+}
+
+/* Rating form */
+.rating-form input[type="text"], .rating-form select{
+    padding:6px 10px;
+    margin-right:5px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+.rating-form button{
+    background:#2563eb; /* blue for rating */
+}
+.rating-form button:hover{
+    background:#1e40af;
+}
+    </style>
+</head>
+<body>
+    <h2>📦 My Orders</h2>
+
+    {% if orders %}
+    <div class="table-wrapper">
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Order ID</th>
+            <th>Service</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Captain</th>
+            <th>Action / Rate</th>
+        </tr>
+
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.service_name }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.captain_name }}</td>
+            <td>
+                {% if order.status == "Pending" %}
+                    <form action="{{ url_for('cancel_order', order_id=order.order_id) }}" method="POST">
+                        <button type="submit">Cancel</button>
+                    </form>
+                {% elif order.status == "Cancelled" %}
+                    <span class="cancelled">Cancelled</span>
+                {% elif order.status == "Completed" and order.already_rated == 0 %}
+                    <form class="rating-form" method="POST" action="{{ url_for('rate_captain', order_id=order.order_id) }}">
+                        <select name="rating" required>
+                            <option value="">Rate</option>
+                            <option value="1">1 ⭐</option>
+                            <option value="2">2 ⭐⭐</option>
+                            <option value="3">3 ⭐⭐⭐</option>
+                            <option value="4">4 ⭐⭐⭐⭐</option>
+                            <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                        </select>
+                        <input type="text" name="review" placeholder="Optional review">
+                        <button type="submit">Submit</button>
+                    </form>
+                {% elif order.status == "Completed" and order.already_rated %}
+                    <span>✅ Rated</span>
+                {% else %}
+                    <span>No Action</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+
+    <br>
+    <a class="back-link" href="{{ url_for('customer_dashboard') }}">⬅️ Back to Dashboard</a>
+</body>
+</html>

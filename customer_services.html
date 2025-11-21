@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Services</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+
+<style>
+:root{
+    --bg:#f0fdf4;          /* light greenish background */
+    --card:#ffffff;        /* white content card */
+    --accent:#22c55e;      /* bright green */
+    --text-dark:#0f172a;   /* dark text */
+    --muted:#64748b;
+    --radius:10px;
+    --font:"Inter", system-ui, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--text-dark);
+    padding:40px;
+}
+
+/* Page Heading */
+h2{
+    text-align:center;
+    font-size:2rem;
+    margin-bottom:25px;
+    color:var(--text-dark);
+}
+
+/* Table container */
+.table-wrapper{
+    max-width:900px;
+    margin:0 auto;
+    background:var(--card);
+    border:1px solid #e2e8f0;
+    padding:25px;
+    border-radius:var(--radius);
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* Table styling */
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:var(--text-dark);
+}
+
+th, td{
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid #e5e7eb;
+}
+
+th{
+    background:#ecfdf5;  /* very light green */
+    font-weight:600;
+    color:#065f46;       /* deep green */
+}
+
+tr:hover{
+    background:#f0fdf4;
+}
+
+/* Book button */
+button{
+    padding:8px 14px;
+    background:var(--accent);
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:600;
+    color:white;
+    transition:0.15s ease;
+}
+
+button:hover{
+    background:#16a34a;
+    transform:translateY(-2px);
+}
+
+/* Back link */
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:25px;
+    color:#15803d;
+    text-decoration:none;
+    font-size:1rem;
+    font-weight:600;
+}
+
+.back-link:hover{
+    text-decoration:underline;
+}
+
+/* Prevent form breaking layout */
+form{
+    margin:0;
+}
+
+</style>
+</head>
+<body>
+
+<h2>Available Services</h2>
+
+<div class="table-wrapper">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Service Name</th>
+            <th>Description</th>
+            <th>Price (₹)</th>
+            <th>Action</th>
+        </tr>
+
+        {% for service in services %}
+        <tr>
+            <td>{{ service.id }}</td>
+            <td>{{ service.name }}</td>
+            <td>{{ service.description }}</td>
+            <td>{{ service.price }}</td>
+
+            <td>
+                <form action="{{ url_for('book_service', service_id=service.id) }}" method="post">
+                    <button type="submit">Book Now</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<a class="back-link" href="{{ url_for('customer_dashboard') }}">⬅️ Back to Dashboard</a>
+
+</body>
+</html>

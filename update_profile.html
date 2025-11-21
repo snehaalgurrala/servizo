@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<title>Update Profile</title>
+
+
+
+<style>
+:root{
+    --bg:#ecfdf5;
+    --card:#ffffff;
+    --accent:#22c55e;
+    --text-dark:#0f172a;
+    --muted:#64748b;
+    --radius:14px;
+    --font:"Inter", system-ui, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    padding:40px;
+    font-family:var(--font);
+    background:var(--bg);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+/* Card */
+.profile-card{
+    width:100%;
+    max-width:650px;
+    background:var(--card);
+    padding:35px;
+    border-radius:var(--radius);
+    box-shadow:0 10px 35px rgba(0,0,0,0.1);
+    border:1px solid #e2e8f0;
+}
+
+/* Heading */
+h2{
+    margin-top:0;
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    color:var(--text-dark);
+    margin-bottom:10px;
+}
+
+/* Flash messages */
+.flash-list{
+    list-style:none;
+    padding:0;
+    margin-bottom:18px;
+}
+.flash-success{ color:#16a34a; }
+.flash-error{ color:#dc2626; }
+
+/* Labels */
+label{
+    font-size:1rem;
+    font-weight:600;
+    color:var(--text-dark);
+}
+
+/* Inputs */
+input, textarea, select{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:20px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    font-size:1rem;
+}
+
+/* Large textarea */
+textarea{
+    height:110px;
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:15px;
+    background:var(--accent);
+    border:none;
+    color:white;
+    font-weight:700;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:1.1rem;
+    transition:0.2s ease;
+}
+
+button:hover{
+    background:#16a34a;
+    transform:translateY(-3px);
+}
+
+/* Back link */
+.back-link{
+    text-decoration:none;
+    font-size:0.95rem;
+    color:#2563eb;
+}
+.back-link:hover{
+    text-decoration:underline;
+}
+
+/* Top bar */
+.header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header-row span{
+    font-size:1.5rem;
+}
+</style>
+
+</head>
+<body>
+
+<div class="profile-card">
+
+    <div class="header-row">
+        <span>👤</span>
+        <a class="back-link" href="{{ url_for('customer_dashboard') }}">⬅ Back to Dashboard</a>
+    </div>
+
+    <h2>Update Profile</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash-{{ 'success' if category=='success' else 'error' }}">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="" method="POST">
+
+        <label>Name:</label>
+        <input type="text" name="name" value="{{ customer.name }}" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" value="{{ customer.email }}" required>
+
+        <label>Address:</label>
+        <textarea name="address" required>{{ customer.address }}</textarea>
+
+        <label>Community Type:</label>
+        <select name="community_type">
+            <option value="Gated" {% if customer.community_type == 'Gated' %}selected{% endif %}>Gated</option>
+            <option value="Non-Gated" {% if customer.community_type == 'Non-Gated' %}selected{% endif %}>Non-Gated</option>
+        </select>
+
+        <label>Apartment / Community Name:</label>
+        <input type="text" name="apartment_name" value="{{ customer.apartment_name }}">
+
+        <label>Block / House No:</label>
+        <input type="text" name="block_no" value="{{ customer.block_no }}">
+
+        <label>New Password (leave blank to keep old one):</label>
+        <input type="password" name="password">
+
+        <button type="submit">Update Profile</button>
+    </form>
+
+</div>
+
+</body>
+</html>

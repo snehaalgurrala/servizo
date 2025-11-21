@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Login</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+
+<style>
+/* ---------- Global Theme ---------- */
+:root{
+    --bg:#f0fdf4;          /* Light greenish white */
+    --card:#ffffff;        /* White form card */
+    --accent:#22c55e;      /* Green button */
+    --text-dark:#0f172a;   /* Dark text */
+    --muted:#64748b;       /* Gray labels */
+    --radius:14px;
+    --font:"Inter", system-ui, sans-serif;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+    font-family:var(--font);
+    background:var(--bg);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+/* ---------- Card Container ---------- */
+.login-card{
+    width:95%;
+    max-width:430px;
+    background:var(--card);
+    padding:35px;
+    border-radius:var(--radius);
+    box-shadow:0 12px 35px rgba(0,0,0,0.10);
+    border:1px solid #e2e8f0;
+}
+
+/* Heading */
+.login-card h2{
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    color:var(--text-dark);
+    margin-bottom:22px;
+}
+
+/* Flash messages */
+.flash-messages{
+    list-style:none;
+    margin-bottom:18px;
+}
+.flash-messages li{
+    padding:10px;
+    border-radius:8px;
+    background:#f1f5f9;
+}
+
+.flash-success{ color:#16a34a; }
+.flash-error{ color:#dc2626; }
+
+/* ---------- Form fields ---------- */
+label{
+    color:var(--muted);
+    font-size:0.95rem;
+    font-weight:500;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    margin-bottom:16px;
+    border-radius:8px;
+    border:1px solid #cbd5e1;
+    font-size:1rem;
+}
+
+input:focus{
+    border-color:var(--accent);
+    outline:none;
+    box-shadow:0 0 0 2px rgba(34,197,94,0.25);
+}
+
+/* ---------- Login Button ---------- */
+button{
+    width:100%;
+    padding:14px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.18s ease;
+}
+
+button:hover{
+    background:#16a34a;
+    transform:translateY(-2px);
+}
+
+/* ---------- Link ---------- */
+p{
+    text-align:center;
+    margin-top:16px;
+    font-size:0.95rem;
+}
+
+a{
+    color:var(--accent);
+    font-weight:600;
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:underline;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="login-card">
+    <h2>Customer Login</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-messages">
+          {% for category, message in messages %}
+            <li class="flash-{{ 'success' if category=='success' else 'error' }}">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Email or Phone:</label>
+        <input type="text" name="identifier" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>
+        Don’t have an account?
+        <a href="{{ url_for('customer_register') }}">Register here</a>
+    </p>
+</div>
+
+</body>
+</html>

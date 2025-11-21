@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Captains</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<style>
+body{font-family:Arial, sans-serif; background:#fff; color:#000; margin:0;}
+.container{width:95%; margin:30px auto;}
+h1{margin-bottom:20px;}
+table{width:100%; border-collapse:collapse; margin-bottom:20px;}
+th, td{border:1px solid #ccc; padding:10px; text-align:center;}
+th{background:#f5f5f5;}
+.btn{padding:5px 10px; border:none; border-radius:5px; cursor:pointer; margin:2px;}
+.btn-approve{background:#22c55e; color:#fff;}
+.btn-reject{background:#ef4444; color:#fff;}
+.btn-fire{background:#000; color:#fff;}
+.btn-msg{background:#2563eb; color:#fff;}
+.nav a{margin-right:15px; text-decoration:none; color:#000;}
+.nav a:hover{color:#555;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Manage Captains</h1>
+<div class="nav">
+    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin_logout') }}">Logout</a>
+</div>
+
+<table>
+<tr>
+<th>ID</th><th>Name</th><th>Email</th><th>Service</th><th>Skills</th><th>Rating</th><th>Status</th><th>Actions</th>
+</tr>
+{% for cap in captains %}
+<tr>
+<td>{{ cap.id }}</td>
+<td>{{ cap.name }}</td>
+<td>{{ cap.email }}</td>
+<td>{{ cap.service_name }}</td>
+<td>{{ cap.skills|join(', ') }}</td>
+<td>{{ cap.avg_rating }} ⭐</td>
+<td>{{ cap.status }}</td>
+<td>
+<form style="display:inline;" method="post" action="{{ url_for('admin_update_captain', cid=cap.id) }}">
+    <button name="action" value="approve" class="btn btn-approve">Approve</button>
+    <button name="action" value="reject" class="btn btn-reject">Reject</button>
+    <button name="action" value="fire" class="btn btn-fire">Fire</button>
+    <button name="action" value="delete" class="btn btn-reject" style="background:#b91c1c;">Delete</button>
+
+</form>
+<form style="display:inline;" method="post" action="{{ url_for('admin_message_captain') }}">
+    <input type="hidden" name="captain_id" value="{{ cap.id }}">
+    <input type="text" name="body" placeholder="Message" required>
+    <button type="submit" class="btn btn-msg">Send</button>
+</form>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</body>
+</html>

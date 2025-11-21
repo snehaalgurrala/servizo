@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Services</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<style>
+body{font-family:Arial, sans-serif; background:#fff; color:#000; margin:0;}
+.container{width:95%; margin:30px auto;}
+h1{margin-bottom:20px;}
+table{width:100%; border-collapse:collapse; margin-bottom:20px;}
+th, td{border:1px solid #ccc; padding:10px; text-align:center;}
+th{background:#f5f5f5;}
+input, button{padding:5px 10px; margin:2px; border-radius:5px;}
+.btn-add{background:#22c55e; color:#fff; border:none;}
+.btn-edit{background:#2563eb; color:#fff; border:none;}
+.btn-delete{background:#ef4444; color:#fff; border:none;}
+.nav a{margin-right:15px; text-decoration:none; color:#000;}
+.nav a:hover{color:#555;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Manage Services</h1>
+<div class="nav">
+    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin_logout') }}">Logout</a>
+</div>
+
+<h3>Add Service</h3>
+<form method="post" action="{{ url_for('admin_add_service') }}">
+<input type="text" name="name" placeholder="Service Name" required>
+<input type="number" name="price" placeholder="Price" step="0.01" required>
+<button type="submit" class="btn-add">Add</button>
+</form>
+
+<table>
+<tr>
+<th>ID</th><th>Name</th><th>Price</th><th>Actions</th>
+</tr>
+{% for s in services %}
+<tr>
+<td>{{ s.id }}</td>
+<td>{{ s.name }}</td>
+<td>{{ s.price }}</td>
+<td>
+<form style="display:inline;" method="post" action="{{ url_for('admin_edit_service', sid=s.id) }}">
+<input type="text" name="name" value="{{ s.name }}" required>
+<input type="number" name="price" value="{{ s.price }}" step="0.01" required>
+<button type="submit" class="btn-edit">Edit</button>
+</form>
+<form style="display:inline;" method="post" action="{{ url_for('admin_delete_service', sid=s.id) }}">
+<button type="submit" class="btn-delete">Delete</button>
+</form>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</body>
+</html>

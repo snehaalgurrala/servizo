@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Orders</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<style>
+body{font-family:Arial, sans-serif; background:#fff; color:#000; margin:0;}
+.container{width:95%; margin:30px auto;}
+h1{margin-bottom:20px;}
+table{width:100%; border-collapse:collapse; margin-bottom:20px;}
+th, td{border:1px solid #ccc; padding:10px; text-align:center;}
+th{background:#f5f5f5;}
+.btn{padding:5px 10px; border:none; border-radius:5px; cursor:pointer;}
+.btn-update{background:#2563eb; color:#fff;}
+.nav a{margin-right:15px; text-decoration:none; color:#000;}
+.nav a:hover{color:#555;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Manage Orders</h1>
+<div class="nav">
+    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin_logout') }}">Logout</a>
+</div>
+
+<table>
+<tr>
+<th>ID</th><th>Customer</th><th>Captain</th><th>Service</th><th>Status</th><th>Order Date</th><th>Actions</th>
+</tr>
+{% for order in orders %}
+<tr>
+<td>{{ order.id }}</td>
+<td>{{ order.customer_name }}</td>
+<td>{{ order.captain_name }}</td>
+<td>{{ order.service_name }}</td>
+<td>{{ order.status }}</td>
+<td>{{ order.order_date }}</td>
+<td>
+<form method="post" action="{{ url_for('admin_update_order', oid=order.id) }}">
+<select name="status">
+    <option value="">--Status--</option>
+    <option value="pending">Pending</option>
+    <option value="completed">Completed</option>
+    <option value="cancelled">Cancelled</option>
+</select>
+<input type="number" name="captain_id" placeholder="Captain ID">
+<button type="submit" class="btn btn-update">Update</button>
+</form>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</body>
+</html>

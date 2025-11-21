@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>Customer Login</h3>
+  <form method="post" class="row g-3">
+    <div class="col-md-8">
+      <label class="form-label">Email or Phone</label>
+      <input name="identifier" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary">Login</button>
+    </div>
+  </form>
+{% endblock %}

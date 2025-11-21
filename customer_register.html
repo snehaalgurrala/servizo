@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Customer Registration</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+
+<style>
+/* ---------- Global Theme ---------- */
+:root{
+    --bg:#f0fdf4;          /* light greenish white */
+    --card:#ffffff;
+    --accent:#22c55e;      /* Servizo green */
+    --text-dark:#0f172a;
+    --muted:#64748b;
+    --radius:18px;
+    --font:"Inter", system-ui, sans-serif;
+}
+
+/* Reset */
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--text-dark);
+    padding:30px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    min-height:100vh;
+    overflow-y:auto;
+}
+
+/* ---------- Card Container ---------- */
+.form-card{
+    width:95%;
+    max-width:650px;
+    background:var(--card);
+    padding:28px;
+    border-radius:var(--radius);
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    border:1px solid #e5e7eb;
+    margin:auto;
+}
+
+
+/* Title */
+.form-card h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:var(--text-dark);
+}
+
+/* Flash messages */
+.flash-messages{
+    list-style:none;
+    margin-bottom:20px;
+}
+.flash-messages li{
+    background:#dcfce7;
+    color:#166534;
+    padding:10px;
+    border-radius:8px;
+    font-size:0.95rem;
+}
+/* ---------- Form styling ---------- */
+label{
+    font-size:0.95rem;
+    color:var(--muted);
+}
+
+input, select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #d1d5db;
+    background:white;
+    color:var(--text-dark);
+    font-size:1rem;
+    margin-top:4px;
+    margin-bottom:18px;
+}
+
+input:focus, select:focus{
+    border-color:var(--accent);
+    outline:none;
+    box-shadow:0 0 0 3px rgba(34,197,94,0.25);
+}
+
+/* ---------- Button ---------- */
+button{
+    width:100%;
+    padding:14px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.15s ease;
+}
+
+button:hover{
+    background:#16a34a;
+    transform:translateY(-2px);
+}
+
+/* ---------- Link ---------- */
+p{
+    margin-top:15px;
+    text-align:center;
+}
+a{
+    color:var(--accent);
+    font-weight:600;
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:underline;
+}
+</style>
+
+</head>
+<body>
+
+<div class="form-card">
+
+    <h2>Customer Registration</h2>
+
+    <!-- show flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-messages">
+          {% for category, message in messages %}
+            <li class="flash-{{ 'success' if category=='success' else 'error' }}">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <label>Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Phone:</label>
+        <input type="text" name="phone" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <label>Confirm Password:</label>
+        <input type="password" name="confirm_password" required>
+
+        <label>Address:</label>
+        <input type="text" name="address" required>
+
+        <label>Community Type:</label>
+        <select name="community_type" required>
+            <option value="gated">Gated</option>
+            <option value="non-gated">Non-Gated</option>
+        </select>
+
+        <label>Community/Apartment Name:</label>
+        <input type="text" name="community_name">
+
+        <label>Block/House No:</label>
+        <input type="text" name="block_or_house" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="{{ url_for('customer_login') }}">Login here</a></p>
+
+</div>
+
+</body>
+</html>

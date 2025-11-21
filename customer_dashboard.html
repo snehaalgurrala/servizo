@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+    <title>Customer Dashboard</title>
+
+<style>
+/* ---------- Global Theme ---------- */
+:root{
+    --bg:#f0fdf4;          /* Light greenish-white background */
+    --card:#ffffff;        /* Main white dashboard card */
+    --accent:#22c55e;      /* Green accent */
+    --text-dark:#0f172a;   /* Dark text */
+    --muted:#64748b;       /* Grey subtitle text */
+    --radius:16px;
+    --font:"Inter", system-ui, sans-serif;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body{
+    font-family:var(--font);
+    background:var(--bg);
+    min-height:100vh;
+    padding:40px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start; /* so page scrolls if long */
+}
+
+/* ---------- Dashboard Card ---------- */
+.dashboard-card{
+    width:95%;
+    max-width:550px;
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:35px;
+    border:1px solid #e2e8f0;
+    box-shadow:0 12px 35px rgba(0,0,0,0.10);
+}
+
+/* ---------- Heading ---------- */
+.dashboard-card h2{
+    text-align:center;
+    font-size:2.1rem;
+    color:var(--text-dark);
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.dashboard-card h3{
+    text-align:center;
+    margin-top:8px;
+    margin-bottom:20px;
+    font-size:1.1rem;
+    color:var(--muted);
+}
+
+/* ---------- Flash Messages ---------- */
+.flash-list{
+    list-style:none;
+    margin:0 0 20px 0;
+    padding:0;
+}
+.flash-list li{
+    padding:12px;
+    background:#f1f5f9;
+    border-radius:10px;
+    margin-bottom:10px;
+    font-size:0.95rem;
+}
+
+.flash-success{ color:#15803d; }
+.flash-error{ color:#dc2626; }
+
+/* ---------- Menu List ---------- */
+.menu{
+    list-style:none;
+    padding:0;
+    margin-top:10px;
+}
+
+.menu li{
+    margin-bottom:14px;
+}
+
+.menu a{
+    display:block;
+    padding:14px 16px;
+    background:white;
+    border:2px solid #d1d5db;
+    border-radius:10px;
+    font-size:1rem;
+    font-weight:600;
+    text-decoration:none;
+    color:var(--text-dark);
+    transition:0.18s ease;
+}
+
+/* ---------- Hover Effects ---------- */
+.menu a:hover{
+    border-color:var(--accent);
+    background:#ecfdf5; /* very light green */
+    transform:translateY(-2px);
+}
+
+/* Emoji spacing */
+.menu a span{
+    margin-right:8px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="dashboard-card">
+
+    <h2>Welcome, {{ customer.name }} 👋</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash-{{ 'success' if category=='success' else 'error' }}">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <h3>What would you like to do?</h3>
+
+    <ul class="menu">
+        <li><a href="{{ url_for('customer_services') }}">📋 View Available Services</a></li>
+        <li><a href="{{ url_for('customer_services') }}">🛠 Book a Service</a></li>
+        <li><a href="{{ url_for('view_orders') }}">📦 My Orders</a></li>
+        <li><a href="{{ url_for('update_profile') }}">⚙️ Update Profile</a></li>
+        <li><a href="{{ url_for('logout_customer') }}">🚪 Logout</a></li>
+    </ul>
+
+</div>
+
+</body>
+</html>

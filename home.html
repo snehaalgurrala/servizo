@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Servizo Services</title>
+<link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/title_logo.jpg') }}">
+<style>
+
+:root{
+  --green:#22c55e;
+  --green-hover:#16a34a;
+
+  --blue:#2563eb;
+  --blue-hover:#1e40af;
+
+  --card:#ffffff;
+  --muted:#64748b;
+  --text:#0f172a;
+  --radius:18px;
+  --font:"Inter", system-ui, sans-serif;
+}
+
+*{margin:0; padding:0; box-sizing:border-box;}
+
+body{
+  font-family:var(--font);
+  background:#f0fdf4;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  padding-bottom:180px; /* reserve space for fixed footer */
+}
+
+/* Top-left Logo */
+.top-logo{
+  position:fixed;
+  top:20px;
+  left:20px;
+  width:100px;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* Main container */
+.container{
+  width:100%;
+  max-width:1000px;
+  display:flex;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 12px 35px rgba(0,0,0,0.12);
+  overflow:hidden;
+  border:1px solid #e2e8f0;
+  margin-top:60px;
+}
+
+/* Columns */
+.column-left, .column-right{
+  width:50%;
+  padding:40px;
+  text-align:center;
+}
+
+.column-left{
+  background:#e8f0ff;
+}
+.column-right{
+  background:#ffffff;
+}
+
+/* Logo */
+.servizo-logo{
+  width:160px;
+  margin:0 auto 10px auto;
+}
+
+/* Headings */
+h2{
+  font-size:1.9rem;
+  color:var(--text);
+  margin-bottom:8px;
+}
+
+p{
+  color:var(--muted);
+  margin-bottom:20px;
+}
+
+/* Buttons */
+.actions{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:12px 22px;
+  border-radius:10px;
+  font-weight:600;
+  text-decoration:none;
+  transition:0.2s;
+}
+
+/* Captain (Blue theme) */
+.btn-blue{
+  background:var(--blue);
+  color:white;
+}
+.btn-blue:hover{
+  background:var(--blue-hover);
+  transform:translateY(-2px);
+}
+
+.btn-blue-outline{
+  background:white;
+  color:var(--blue);
+  border:2px solid var(--blue);
+}
+.btn-blue-outline:hover{
+  border-color:var(--blue-hover);
+  color:var(--blue-hover);
+  transform:translateY(-2px);
+}
+
+/* Customer (Green theme) */
+.btn-green{
+  background:var(--green);
+  color:white;
+}
+.btn-green:hover{
+  background:var(--green-hover);
+  transform:translateY(-2px);
+}
+
+.btn-green-outline{
+  background:white;
+  color:var(--green);
+  border:2px solid var(--green);
+}
+.btn-green-outline:hover{
+  border-color:var(--green-hover);
+  color:var(--green-hover);
+  transform:translateY(-2px);
+}
+
+/* Fixed Footer - About Us (updated) */
+.about-us{
+  position: relative; /* changed from absolute */
+  bottom: auto;
+  left: auto;
+  transform: none;
+  width:100%;
+  max-width:1000px;
+  background:var(--card);
+  border-radius:0 0 var(--radius) var(--radius);
+  padding:20px 30px;
+  box-shadow:0 -4px 25px rgba(0,0,0,0.1);
+  border-top:1px solid #e2e8f0;
+  text-align:center;
+  z-index:5;
+  margin-top:60px; /* add some spacing from main content */
+}
+
+.about-us h3{
+  font-size:1.3rem;
+  margin-bottom:8px;
+  color:var(--text);
+}
+
+.about-us p{
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+/* Responsive */
+@media(max-width:780px){
+  .container{
+    flex-direction:column;
+  }
+  .column-left, .column-right{
+    width:100%;
+    padding:30px;
+  }
+  .top-logo{
+    width:80px;
+  }
+  .about-us{
+    padding:15px 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Top-left Logo -->
+<a href="/admin/login"><img src="{{ url_for('static', filename='images/servizo_logo.jpeg') }}" class="top-logo" alt="Servizo Logo"></a>
+
+<div class="container">
+
+    <!-- LEFT SIDE — CAPTAIN -->
+    <div class="column-left">
+        <img src="{{ url_for('static', filename='images/servizo_logo.jpeg') }}" class="servizo-logo">
+
+        <h2>Captain Portal</h2>
+        <p>Manage Requests & Serve Customers</p>
+
+        <div class="actions">
+            <a href="/captain/login" class="btn btn-blue">Captain Login</a>
+            <a href="/captain/register" class="btn btn-blue-outline">Captain Register</a>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE — CUSTOMER -->
+    <div class="column-right">
+        <img src="{{ url_for('static', filename='images/servizo_logo.jpeg') }}" class="servizo-logo">
+
+        <h2>Customer Portal</h2>
+        <p>Easy & Quick Community Services</p>
+
+        <div class="actions">
+            <a href="/customer/login" class="btn btn-green">Customer Login</a>
+            <a href="/customer/register" class="btn btn-green-outline">Customer Register</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- Fixed Footer -->
+<div class="about-us">
+    <h3>About Us</h3>
+    <p>Servizo is a platform that connects skilled professionals, called Captains, with customers seeking services such as home cleaning, plumbing, electrical work, and more. It enables customers to book services conveniently, schedule appointments, and provide ratings, while allowing Captains to showcase their skills, gain consistent work, and build a professional reputation. Servizo ensures trust, efficiency, and quality service delivery by vetting professionals and handling payments securely.</p>
+    <h3>Contact Us</h3>
+    <p>Email: snehaalgurrala@gmail.com</p>
+    <p>Phone: 8143243287</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>Customer Registration</h3>
+  <form method="post" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Name</label>
+      <input name="name" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Phone</label>
+      <input name="phone" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Address</label>
+      <input name="address" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Do you live in a gated community?</label>
+      <select class="form-select" name="gated">
+        <option value="no" selected>No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+
+    <!-- gated fields -->
+    <div class="col-md-6">
+      <label class="form-label">Community name (if gated) / Apartment name</label>
+      <input name="community_name" class="form-control">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Block/Flat/House No.</label>
+      <input name="block_or_house" class="form-control">
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-success">Register</button>
+    </div>
+  </form>
+{% endblock %}
